@@ -1,0 +1,28 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 21, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "default",
+      "displayName": "Default",
+      "description": "Configures into ./Build using the system default generator",
+      "binaryDir": "${sourceDir}/Build"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "displayName": "Default (Release)",
+      "configurePreset": "default",
+      "configuration": "Release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default",
+      "configuration": "Release",
+      "output": { "outputOnFailure": true }
+    }
+  ]
+}
