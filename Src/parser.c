@@ -197,6 +197,7 @@ bool ParseJsonFile(char *FileName) {
         } else if (peek->Jvalue_Type == JOBJECT) {
           JValue *KeyPair = malloc(sizeof(JValue));
           KeyPair->Jvalue_Type = KEY_VALUE;
+          KeyPair->data.KeyValue = malloc(sizeof(KV));
           KeyPair->data.KeyValue->key = stringObject->data.string;
           PushIntoStack(ParserStack, KeyPair);
         } else {
