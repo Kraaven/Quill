@@ -27,7 +27,8 @@ typedef struct KV {
 } KV;
 
 LIST_DEFINATION(KV)
-
 typedef struct JObject {
   List_KV *KeyValues;
 } JObject;
+
+char *NodeTypeToString(enum JVALUE_TYPE type);

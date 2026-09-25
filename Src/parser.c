@@ -28,7 +28,12 @@ bool ParseJsonFile(char *FileName) {
   List_JValue *ParserStack = CreateStack();
 
   for (int i = 0; i < JsonFileSize; i++) {
-    LOG("Pasring : %c", JsonFileContent[i]);
+
+    char *State = StackStateIntoString(ParserStack);
+    LOG("-----\nStack State: %s\nParsing %c : %d", State, JsonFileContent[i],
+        i);
+    free(State);
+
     ParseToken token = GetTokenByCharacter(JsonFileContent[i]);
 
     switch (token.tokenType) {
@@ -112,6 +117,7 @@ bool ParseJsonFile(char *FileName) {
         Node_char *charPtr = stringBuilder->head;
         for (int j = 0; j < stringBuilder->size; j++) {
           stringObject->data.string[j] = *(charPtr->value);
+          charPtr = charPtr->next;
         }
         stringObject->data.string[stringBuilder->size] = '\0';
 
@@ -193,6 +199,9 @@ bool ParseJsonFile(char *FileName) {
 
         JValue *peek = PeekIntoStack(ParserStack);
         if (peek->Jvalue_Type == KEY_VALUE) {
+          if (peek->data.KeyValue == NULL) {
+            peek->data.KeyValue = malloc(sizeof(KV));
+          }
           peek->data.KeyValue->key = stringObject->data.string;
         } else if (peek->Jvalue_Type == JOBJECT) {
           JValue *KeyPair = malloc(sizeof(JValue));

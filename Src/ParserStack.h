@@ -12,3 +12,5 @@ void PushIntoStack(List_JValue *Stack, JValue *value);
 JValue *PeekIntoStack(List_JValue *Stack);
 JValue *PeekSecondIntoStack(List_JValue *Stack);
 JValue *PopOfStack(List_JValue *Stack);
+
+char *StackStateIntoString(List_JValue *Stack);
