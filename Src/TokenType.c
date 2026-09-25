@@ -25,7 +25,7 @@ enum TokenType ParseCharacter(char character) {
     return STRING_IDENTIFIER;
     break;
   case ',':
-    return OBJECT_SEPERATOR;
+    return VALUE_SEPERATOR;
     break;
   case ':':
     return KV_SEPERATOR;
@@ -42,11 +42,13 @@ enum TokenType ParseCharacter(char character) {
   case '.':
     return DOT;
     break;
+  case '\r':
+    return WHITESPACE;
   }
 
   if (strchr(NumberSet, character) == NULL) {
     if (strchr(AlphabetSet, character) == NULL) {
-      LOG("Unknown Cladified Character %c", character);
+      LOG("Unknown Cladified Character %c : %d", character, character);
     } else {
       return STRING_CHARACTER;
     }
@@ -55,10 +57,15 @@ enum TokenType ParseCharacter(char character) {
   }
 }
 
-ParseToken *GetTokenByCharacter(char character) {
-  ParseToken *token = malloc(sizeof(ParseToken));
-  token->tokenType = ParseCharacter(character);
-  token->character = character;
+ParseToken GetTokenByCharacter(char character) {
+  ParseToken token;
+  token.tokenType = ParseCharacter(character);
+
+  if (token.tokenType == NUMBER_CHARACTER) {
+    token.character = character - '0';
+  } else {
+    token.character = character;
+  }
 
   return token;
 }

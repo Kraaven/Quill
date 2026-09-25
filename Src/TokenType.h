@@ -9,12 +9,13 @@ enum TokenType {
   OPEN_ARRAY,
   CLOSE_ARRAY,
   STRING_IDENTIFIER,
-  OBJECT_SEPERATOR,
+  VALUE_SEPERATOR,
   KV_SEPERATOR,
   STRING_CHARACTER,
   NUMBER_CHARACTER,
   WHITESPACE,
-  DOT
+  DOT,
+  EoF
 };
 
 typedef struct ParseToken {
@@ -24,4 +25,4 @@ typedef struct ParseToken {
 
 enum TokenType ParseCharacter(char character);
 
-ParseToken *GetTokenByCharacter(char character);
+ParseToken GetTokenByCharacter(char character);

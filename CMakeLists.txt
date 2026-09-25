@@ -32,7 +32,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 # Compiler warnings
 #-------------------------------------------------
 if(MSVC)
-    add_compile_options(/W4)
+    add_compile_options(/W4 /fsanitize=address)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
