@@ -1,5 +1,6 @@
 #pragma once
 #include "LinkedList.h"
+#include "stdbool.h"
 
 LIST_DEFINATION(char)
 
@@ -7,7 +8,9 @@ typedef struct JValue JValue;
 typedef struct KV KV;
 LIST_DEFINATION(JValue)
 
-enum JVALUE_TYPE { JOBJECT, ARRAY, STRING, FLOAT, KEY_VALUE };
+enum JVALUE_TYPE { JOBJECT, ARRAY, STRING, FLOAT, KEY_VALUE, BOOLEAN };
+
+enum JState { JTRUE, JFALSE, JNULL };
 
 typedef struct JValue {
   enum JVALUE_TYPE Jvalue_Type;
@@ -18,6 +21,7 @@ typedef struct JValue {
     float number;
     char *string;
     KV *KeyValue;
+    enum JState boolean;
   } data;
 } JValue;
 
@@ -32,3 +36,4 @@ typedef struct JObject {
 } JObject;
 
 char *NodeTypeToString(enum JVALUE_TYPE type);
+bool ValidateJState(JValue *value);

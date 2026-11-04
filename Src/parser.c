@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool ParseJsonFile(char *FileName) {
+bool ParseJsonFile(char *FileName, JValue **jsonRoot) {
   FILE *jsonFile = fopen(FileName, "rb");
 
   struct stat sb;
@@ -278,6 +278,22 @@ bool ParseJsonFile(char *FileName) {
           List_Insert_char(peek->data.stringBuilder, character);
           continue;
         }
+      } else {
+        JValue *peek = PeekIntoStack(ParserStack);
+        if (peek->Jvalue_Type == BOOLEAN) {
+          char *character = malloc(sizeof(char));
+          *character = token.character;
+          List_Insert_char(peek->data.stringBuilder, character);
+
+        } else {
+          JValue *newStateObject = malloc(sizeof(JValue));
+          newStateObject->Jvalue_Type = BOOLEAN;
+          newStateObject->data.stringBuilder = List_Create_char();
+          char *character = malloc(sizeof(char));
+          *character = token.character;
+          List_Insert_char(newStateObject->data.stringBuilder, character);
+          PushIntoStack(ParserStack, newStateObject);
+        }
       }
       break;
 
@@ -302,7 +318,7 @@ bool ParseJsonFile(char *FileName) {
         DotAccumulator = -1;
       }
 
-      if (DotAccumulator != -1) {
+      if (DotAccumulator == -1) {
         peekNumber->data.number *= 10;
         peekNumber->data.number += token.character;
       } else {
@@ -446,6 +462,7 @@ bool ParseJsonFile(char *FileName) {
       return false;
     } else {
       LOG("Encountered End of File, the stack is empty!");
+      *jsonRoot = PoppedObject;
       return true;
     }
   }

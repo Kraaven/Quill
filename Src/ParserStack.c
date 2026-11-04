@@ -55,7 +55,7 @@ JValue *PopOfStack(List_JValue *Stack) {
 }
 
 char *StackStateIntoString(List_JValue *Stack) {
-  char *ParserState = malloc(sizeof(char) * 100);
+  char *ParserState = malloc(sizeof(char) * 1024);
   ParserState[0] = '\0';
   strcat(ParserState, "Parser Stack: ");
   Node_JValue *QueryPtr = Stack->head;
